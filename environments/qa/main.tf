@@ -20,3 +20,25 @@ module "virtual_machine" {
   admin_username       = var.admin_username
   admin_password       = var.admin_password
 }
+
+# environments/qa/main.tf
+module "storage_account" {
+  source              = "../../modules/storage_account"
+  storage_account_name = var.storage_account_name
+  resource_group_name  = module.resource_group.resource_group_name
+  location            = var.location
+  account_tier        = var.account_tier
+  account_replication_type = var.account_replication_type
+}
+
+# environments/qa/main.tf
+module "network" {
+  source              = "../../modules/network"
+  vnet_name           = var.vnet_name
+  address_space       = var.address_space
+  location            = var.location
+  resource_group_name = module.resource_group.resource_group_name
+  subnet_name         = var.subnet_name
+  subnet_address_prefixes = var.subnet_address_prefixes
+  public_ip_name      = var.public_ip_name
+}
